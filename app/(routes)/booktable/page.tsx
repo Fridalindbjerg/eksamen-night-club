@@ -56,7 +56,7 @@ export default function Page() {
             validate: (value) => /\p{L}{2,}/u.test(value) || "Name must be at least 2 letters",
           })}
         />
-        {errors.name && <div className="text-red-500">{errors.name.message}</div>}
+        {errors.name && <div className="text-white">{errors.name.message}</div>}
 
         <input 
         type="text" 
@@ -64,7 +64,7 @@ export default function Page() {
         value={picked ?? ""} 
         className="border-white border px-2 py-2  w-full" 
         placeholder="Click a table above" />
-        {errors.tablenumber && <div className="text-red-500">{errors.tablenumber.message}</div>}
+        {errors.tablenumber && <div className="text-white">{errors.tablenumber.message}</div>}
         <input
           className="border-white border px-2 py-2  w-full"
           type="text"
@@ -74,7 +74,7 @@ export default function Page() {
             validate: (value) => /\p{L}{2,}/u.test(value) || "You must choose a date",
           })}
         />
-        {errors.tablenumber && <div className="text-red-500">{errors.tablenumber.message}</div>}
+        {errors.tablenumber && <div className="text-white">{errors.tablenumber.message}</div>}
         <input
           className="border-white border px-2 py-2  w-full"
           type="text"
@@ -84,7 +84,7 @@ export default function Page() {
             validate: (value) => value.includes("@") || "Email must include @",
           })}
         />
-        {errors.email && <div className="text-red-500">{errors.email.message}</div>}
+        {errors.email && <div className="text-white">{errors.email.message}</div>}
 
         <input
           className="border-white border px-2 py-2  w-full"
@@ -103,7 +103,7 @@ export default function Page() {
             },
           })}
         />
-        {errors.guests && <div className="text-red-500">{errors.guests.message}</div>}
+        {errors.guests && <div className="text-white">{errors.guests.message}</div>}
 
         <input
           className="border-white border px-2 py-2  w-full"
@@ -121,7 +121,7 @@ export default function Page() {
             },
           })}
         />
-        {errors.phone && <div className="text-red-500">{errors.phone.message}</div>}
+        {errors.phone && <div className="text-white">{errors.phone.message}</div>}
 
         {/* <input className="border-white border px-2 py-2  md:col-span-2 h-36" type="text" placeholder="Your Comment" {...register("comments", {})} /> */}
 

@@ -4,9 +4,18 @@ import Comments from "./components/comments";
 const Blog = async ({ params }) => {
   const { id } = await params;
 
-  const response = await fetch(`http://localhost:4000/blogposts/${id}?_embed=comments`);
+  // const response = await fetch(`http://localhost:4000/blogposts/${id}?_embed=comments`, { cache: "no-store" });
+  // const singlepost = await response.json();
+
+ 
+  const response = await fetch(`http://localhost:4000/blogposts/${id}`, { cache: "no-store" });
   const singlepost = await response.json();
-  const count = singlepost.comments?.length ?? 0;
+
+  
+  const commentsRes = await fetch(`http://localhost:4000/comments?postId=${Number(id)}`, { cache: "no-store" });
+  const comments = await commentsRes.json();
+
+  const count = comments.length;
 
   return (
     <div className=" col-[content-start/content-end] ">
@@ -22,7 +31,7 @@ const Blog = async ({ params }) => {
           <p>date: NA</p>
         </div>
         <p className="line-clamp-6">{singlepost.content}</p>
-        <h2 className="text-3xl font-semibold mt-8">{count === 1 ? "1 comment" : `${count} comments`}</h2>
+        <h2 className="text-3xl font-semibold mt-8"> {count === 1 ? "1 comment" : `${count} comments`}</h2>
         <div className="flex flex-col gap-8 mt-8">
           {singlepost.comments?.map((comment) => (
             <div key={comment.id} className="flex flex-col gap-4">
@@ -32,10 +41,10 @@ const Blog = async ({ params }) => {
                 <p className="text-(--pink)">{comment.date}</p>
               </div>
               <p className="">{comment.content}</p>
-              <Comments postId={singlepost.id} />
             </div>
           ))}
         </div>
+        <Comments postId={singlepost.id} />
       </div>
     </div>
   );
