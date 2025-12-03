@@ -7,10 +7,10 @@ const Blog = async ({ params }) => {
   // const response = await fetch(`http://localhost:4000/blogposts/${id}?_embed=comments`, { cache: "no-store" });
   // const singlepost = await response.json();
 
-  const response = await fetch(`http://localhost:4000/blogposts/${id}`, { cache: "no-store" });
+  const response = await fetch(`http://localhost:4000/blogposts/${id}`);
   const singlepost = await response.json();
 
-  const commentsRes = await fetch(`http://localhost:4000/comments?postId=${Number(id)}`, { cache: "no-store" });
+  const commentsRes = await fetch(`http://localhost:4000/comments?postId=${Number(id)}`);
   const comments = await commentsRes.json();
 
   const count = comments.length;
@@ -34,7 +34,6 @@ const Blog = async ({ params }) => {
         <div className="flex flex-col gap-8 mt-8">
           {Array.isArray(comments) && comments.length > 0 ? (
             comments.map((c: any) => {
-              // vis indhold uanset om feltet hedder content/comment/text
               const body = c.content ?? "";
               return (
                 <div key={c.id} className="flex flex-col gap-4">
@@ -52,7 +51,6 @@ const Blog = async ({ params }) => {
           )}
         </div>
 
-        {/* Formularen poster med postId og kalder router.refresh() */}
         <Comments postId={singlepost.id} />
       </div>
     </div>
