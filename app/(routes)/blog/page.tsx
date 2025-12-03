@@ -1,3 +1,4 @@
+import Section3_Gallery from "@/app/components_home/Section3_gallery";
 import Link from "next/link";
 
 const Blogposts = async () => {
@@ -9,6 +10,8 @@ const Blogposts = async () => {
   return (
     <main className=" my-8 grid subgrid col-[full-start/full-end] ">
       <h1 className="text-3xl font-bold mb-6">De 3 nyeste blogposts</h1>
+      <Section3_Gallery />
+
       <div className="">
         {posts.map((post) => (
           <div key={post.id} className=" grid grid-cols-2 ">
