@@ -7,22 +7,20 @@ const Blog = async ({ params }) => {
   // const response = await fetch(`http://localhost:4000/blogposts/${id}?_embed=comments`, { cache: "no-store" });
   // const singlepost = await response.json();
 
- 
   const response = await fetch(`http://localhost:4000/blogposts/${id}`, { cache: "no-store" });
   const singlepost = await response.json();
 
-  
   const commentsRes = await fetch(`http://localhost:4000/comments?postId=${Number(id)}`, { cache: "no-store" });
   const comments = await commentsRes.json();
 
   const count = comments.length;
 
   return (
-    <div className=" col-[content-start/content-end] ">
-      <div className="">
-        <img src={singlepost.asset.url} alt={singlepost.title} className="object-cover" />
+    <div className="grid col-[full-start/full-end]">
+      <div className="col-[content-start/content-end]">
+        <img src={singlepost.asset.url} alt={singlepost.title} className="w-full h-auto object-cover " />
       </div>
-      <div className="flex gap-4 flex-col">
+      <div className="gap-4 col-[content-start/content-end]">
         <h2 className="text-xl font-semibold">{singlepost.title}</h2>
         <div className="flex flex-row gap-2 text-(--pink) font-semibold">
           <p>BY: {singlepost.author}</p>
@@ -32,18 +30,29 @@ const Blog = async ({ params }) => {
         </div>
         <p className="line-clamp-6">{singlepost.content}</p>
         <h2 className="text-3xl font-semibold mt-8"> {count === 1 ? "1 comment" : `${count} comments`}</h2>
+
         <div className="flex flex-col gap-8 mt-8">
-          {singlepost.comments?.map((comment) => (
-            <div key={comment.id} className="flex flex-col gap-4">
-              <div className="flex gap-2 font-semibold">
-                <p>{comment.name}</p>
-                <span>-</span>
-                <p className="text-(--pink)">{comment.date}</p>
-              </div>
-              <p className="">{comment.content}</p>
-            </div>
-          ))}
+          {Array.isArray(comments) && comments.length > 0 ? (
+            comments.map((c: any) => {
+              // vis indhold uanset om feltet hedder content/comment/text
+              const body = c.content ?? "";
+              return (
+                <div key={c.id} className="flex flex-col gap-4">
+                  <div className="flex gap-2 font-semibold">
+                    <p>{c.name ?? "Anon"}</p>
+                    <span>-</span>
+                    <p className="text---pink)">{c.date ?? ""}</p>
+                  </div>
+                  <p>{body}</p>
+                </div>
+              );
+            })
+          ) : (
+            <p>Ingen kommentarer endnu.</p>
+          )}
         </div>
+
+        {/* Formularen poster med postId og kalder router.refresh() */}
         <Comments postId={singlepost.id} />
       </div>
     </div>
