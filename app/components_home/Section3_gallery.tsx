@@ -1,18 +1,16 @@
-import { div } from "framer-motion/client";
+// components/Section3_Gallery.tsx
+import Section3_popup, { Picture } from "./Section3_popup";
 
 const Section3_Gallery = async () => {
-  const response = await fetch("http://localhost:4000/gallery");
-  const gallery = await response.json();
+  // Server-side fetch
+  const response = await fetch("http://localhost:4000/gallery?_limit=7");
+  const gallery: Picture[] = await response.json();
 
   return (
-    <div>
-      {gallery.map((picture) => (
-        <div
-          className="grid max-w-full"
-        >
-          <img key={picture.id} src={picture.asset.url} alt={picture.description} className="w-full h-auto object-cover mb-4 rounded-lg shadow-lg" />
-        </div>
-      ))}
+    <div className="max-w-full">
+      <h2 className="text-center mb-4">Night club gallery</h2>
+      {/* Client-side modal komponent */}
+      <Section3_popup gallery={gallery} />
     </div>
   );
 };
