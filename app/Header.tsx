@@ -9,7 +9,7 @@ const Header = () => {
     const menuItems = [
         { label: "HOME", href: "/" },
         { label: "BLOG", href: "/blog" },
-        { label: "BOOK TABLE", href: "/book" },
+        { label: "BOOK TABLE", href: "/booktable" },
         { label: "CONTACT US", href: "/contact" },
     ];
 
@@ -49,7 +49,7 @@ const Header = () => {
                     </ul>
                     {/* Burger menu: */}
                     <button
-                        className="md:hidden text-white text-3xl z-50"
+                        className="md:hidden text-white text-6xl z-50 leading-none"
                         onClick={() => setOpen(true)}
                     >
                         ☰
