@@ -75,13 +75,8 @@ export default function GalleryWithFramerModal({ gallery }: Props) {
 
   return (
     <div>
-      {/* bruger slice til at vise de første 4 billeder (slice: et stykke af pizzaen) */}
-      {/* Øverste venstre hjørne */}
-
-      {/* Nederste højre hjørne */}
-
-      {/* Dit grid */}
-      <div className="grid grid-cols-[2fr_1fr_2fr_1fr]">
+      <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr_2fr_1fr] ">
+        {/* bruger slice til at vise de første 4 billeder (slice: et stykke af pizzaen) */}
         {gallery.slice(0, 4).map((pic, i) => (
           <div key={pic.id} className="relative group ">
             <div
@@ -95,7 +90,6 @@ export default function GalleryWithFramerModal({ gallery }: Props) {
             />
             <div
               className="
-             
           absolute top-0 left-0 w-0 h-0 
           border-r-30 border-r-transparent 
           border-t-30 border-t-(--pink)
@@ -114,8 +108,8 @@ export default function GalleryWithFramerModal({ gallery }: Props) {
         ))}
       </div>
 
-      {/* Bruger slice til at vise de sidste 3 billeder (slice: et stykke af pizzaen) */}
-      <div className="grid grid-cols-3 ">
+      <div className="grid grid-cols-1 md:grid-cols-3">
+        {/* Bruger slice til at vise de sidste 3 billeder (slice: et stykke af pizzaen) */}
         {gallery.slice(4, 7).map((pic, i) => (
           <div key={pic.id} className="relative group">
             <div
@@ -152,7 +146,7 @@ export default function GalleryWithFramerModal({ gallery }: Props) {
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <button onClick={() => setIsOpen(false)} className="absolute top-4 right-4 text-white text-2xl z-50 cursor-pointer">
-            <RxCross2 />
+            <RxCross2 size={40} />
           </button>
 
           <div className="relative">
@@ -191,15 +185,15 @@ export default function GalleryWithFramerModal({ gallery }: Props) {
 // forwardRef bruges for at framer-motion kan få en reference til DOM-elementet,
 // når komponenten bruges inde i AnimatePresence.
 const Slide = forwardRef(function Slide({ picture, custom }: { picture: Picture; custom: number }, ref: React.Ref<HTMLDivElement>) {
-  // Henter "direction" for animationen fra AnimatePresence.
-  // Den bruges til at vide om vi skal animere venstre→højre eller højre→venstre.
+  //   // Henter "direction" for animationen fra AnimatePresence.
+  //   // Den bruges til at vide om vi skal animere venstre→højre eller højre→venstre.
   const direction = usePresenceData();
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, x: direction * 50 }} animate={{ opacity: 1, x: 0, transition: { type: "spring", bounce: 0.3 } }} exit={{ opacity: 0, x: direction * -50 }} custom={custom} className="w-[500px] h-[500px]  overflow-hidden">
+    <motion.div ref={ref} initial={{ opacity: 0, x: direction * 50 }} animate={{ opacity: 1, x: 0, transition: { type: "spring", bounce: 0.3 } }} exit={{ opacity: 0, x: direction * -50 }} custom={custom} className="max-w-[80vw] max-h-[80vh] w-auto h-auto overflow-hidden rounded-lg">
       <div className="border-b-2 border-(--pink) relative">
         <div className="absolute bottom-0 right-0 w-0 h-0 border-l-30 border-l-transparent border-b-30 border-b-(--pink)" />
 
-        <img src={picture.asset.url} alt={picture.description} className="w-full h-full object-cover" />
+        <img src={picture.asset.url} alt={picture.description} className="w-full h-full object-contain" />
       </div>
     </motion.div>
   );
