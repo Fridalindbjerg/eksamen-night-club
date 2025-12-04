@@ -1,3 +1,4 @@
+import Section3_Gallery from "@/app/components_home/Section3_gallery";
 import Link from "next/link";
 import Button from "../../button";
 
