@@ -2,7 +2,13 @@ import Hero from "./components_home/Hero";
 import Header from "./components_home/Header";
 import Section3_Gallery from "./components_home/Section3_gallery";
 import Index_h2 from "./components_home/Index_h2";
-import { div } from "framer-motion/client";
+
+
+// Timer på loading så den er synlig: Udkommenteres for at fjerne delay
+// async function LoadContent() {
+//   await new Promise((resolve) => setTimeout(resolve, 1500));
+//   return <div className="text-center py-20 px-4"></div>;
+// }
 
 export default function HomePage() {
 
