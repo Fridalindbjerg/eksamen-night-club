@@ -1,6 +1,7 @@
 import Section3_Gallery from "@/app/components_home/Section3_gallery";
 import Link from "next/link";
 import Button from "../../button";
+import Testimonials from "@/app/components_home/Testimonials";
 
 // type BlogPost = {
 //   id: number;
@@ -20,11 +21,12 @@ const Blogposts = async () => {
   return (
     <main
       className="
-      col-[full-start/full-end]
-      grid grid-cols-subgrid 
-      my-8 
+    col-[full-start/full-end]
+    grid grid-cols-subgrid 
+    my-8 
     "
     >
+      <Testimonials />
       <h1 className="col-[content-start/content-end] text-3xl font-bold mx-5 my-5 ">De 3 nyeste blogposts</h1>
 
       {posts.map((post, i) => {
