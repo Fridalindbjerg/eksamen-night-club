@@ -1,18 +1,36 @@
+
 import Section3_Gallery from "@/app/components_home/Section3_gallery";
 import Link from "next/link";
 import Button from "../../button";
 import EmailSub from "@/app/components_home/Section8_email_sub";
 import Banner from "@/app/components_home/Banner";
+import { useState, useEffect } from "react";
+import Pagination from "./components/pagination";
 
-const Blogposts = async () => {
-  "use server";
+export default async function Blogposts({
+  searchParams,
 
-  const response = await fetch("http://localhost:4000/blogposts?_embed=comments&_limit=3", { cache: "no-store" });
-  const posts = await response.json();
+}:{searchParams?: { page?: string };
+}){
+  // læs side fra url, sæt default til side 1
+  const currentPage = Math.max(1, Number(searchParams?.page) || 1);
+
+  // bestemmer antal posts per side
+  const postsPerPage = 3;
+
+  // fetch data på almindelig vis, som vi plejer i undervisning
+  // vi indsætter _page ${currentPage} og _limit ${postsPerPage} i url'en for at paginere. 
+  const response = await fetch(`http://localhost:4000/blogposts?_embed=comments&_page=${currentPage}&_limit=${postsPerPage}`);
+    const posts = await response.json();
+
+     const total = Number(response.headers.get("X-Total-Count") || 0);
+    const totalPages = Math.max(1, Math.ceil(total / postsPerPage));
+
+
 
   return (
     <main className="col-[full-start/full-end] grid grid-cols-subgrid my-8">
-      <Banner text="Blog"/>
+      <Banner text="Blog" />
       <EmailSub />
 
       <h1 className="col-[content-start/content-end] text-3xl font-bold my-5">De 3 nyeste blogposts</h1>
@@ -73,12 +91,17 @@ const Blogposts = async () => {
             </div>
           </div>
         </article>
+      
       ))}
+         <div className="mt-8 flex justify-center">
+        <Pagination currentPage={currentPage} totalPages={totalPages} />
+      </div>
     </main>
   );
-};
+  }
 
-export default Blogposts;
+
+// export default Blogposts;
 
 // const isEven = (n: number) => n % 2 === 0;
 
