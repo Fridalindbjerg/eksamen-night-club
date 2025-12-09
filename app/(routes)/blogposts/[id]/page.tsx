@@ -8,13 +8,20 @@ const Blog = async ({ params }) => {
   // const response = await fetch(`http://localhost:4000/blogposts/${id}?_embed=comments`, { cache: "no-store" });
   // const singlepost = await response.json();
 
-  const response = await fetch(`http://localhost:4000/blogposts/${id}`);
+  // const response = await fetch(`http://localhost:4000/blogposts/${id}`);
+  // const singlepost = await response.json();
+
+  // const commentsRes = await fetch(`http://localhost:4000/comments?postId=${Number(id)}`);
+  // const comments = await commentsRes.json();
+
+  const response = await fetch(`http://localhost:4000/blogposts/${id}?embed=comments`, { cache: "no-store" });
   const singlepost = await response.json();
+  console.log("singlepost from server:", singlepost);
 
-  const commentsRes = await fetch(`http://localhost:4000/comments?postId=${Number(id)}`);
-  const comments = await commentsRes.json();
-
+  const comments = singlepost.comments ?? [];
   const count = comments.length;
+
+  // Hvis du skal sende postId til Comments form:
 
   return (
     <div className="grid grid-cols-subgrid col-[full-start/full-end]">

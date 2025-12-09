@@ -16,7 +16,6 @@ export default function HomePage() {
     <div>
       <Hero />
       <Header />
-      <Index_h2 text="night club gallery" />
       <Section3_Gallery />
     </div>
   );

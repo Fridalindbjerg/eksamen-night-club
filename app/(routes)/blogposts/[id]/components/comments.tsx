@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 
 // gør så vi kan bruge router.refresh(), så siden opdateres efter man har postet en kommentar
 import { useRouter } from "next/navigation";
-
+import { useState } from "react";
 import Button from "../../../../button";
 
 // typescript type for form data
@@ -12,42 +12,76 @@ type commentForm = { name: string; content: string };
 // komponenten modtager postID som prop, så kommentaren knyttes til den rigtige blogpost
 // benyttet ai som hjælp til hvordan man laver en kommentar form med react-hook-form, da typescript fungerer anderledes end javascript - vi har også set youtube.
 
-export default function Comments({ postId }: { postId: number }) {
-  const router = useRouter();
+type Comment = {
+  id: number;
+  postId: number;
+  name: string;
+  content: string;
+  date: string;
+};
+
+interface CommentsProps {
+  postId: number;
+  initialComments?: Comment[];
+}
+
+export default function Comments({ postId, initialComments = [] }: CommentsProps) {
+  const [comments, setComments] = useState<Comment[]>(initialComments);
   const {
     register,
     // sørger for at validering sker ved tryk på submit knap
     handleSubmit,
     reset,
     // nulstiller formen efter submit
-   
+
     formState: { errors },
   } = useForm<commentForm>();
 
   // funnktionen der kører når ovenstående validering er bestået
+  // const onSubmit = async (data: commentForm) => {
+  //   await fetch("http://localhost:4000/comments", {
+  //     // sender en POST til api'en
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({
+  //       postId,
+  //       name: data.name,
+  //       content: data.content,
+  //       date: new Date().toISOString().slice(0, 10),
+  //     }),
+  //   });
+
+  //   // tømmer felter
+  //   reset();
+  //   // opdaterer siden så den nye kommentar vises
+  // };
+
   const onSubmit = async (data: commentForm) => {
-    await fetch("http://localhost:4000/comments", {
-      // sender en POST til api'en
+    const newComment: Comment = {
+      id: Math.random(), // midlertidig id, kan erstattes af server response
+      postId,
+      name: data.name,
+      content: data.content,
+      date: new Date().toISOString().slice(0, 10),
+    };
+
+    // 1️⃣ Opdater UI med det samme (optimistisk)
+    setComments([newComment, ...comments]);
+    reset();
+
+    // 2️⃣ Send POST til server
+    const res = await fetch("http://localhost:4000/comments", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        postId,
-        name: data.name,
-        content: data.content,
-        date: new Date().toISOString().slice(0, 10),
-      }),
+      body: JSON.stringify(newComment),
     });
-
-    // tømmer felter
-    reset();
-    // opdaterer siden så den nye kommentar vises
-    router.refresh();
+    const created = await res.json();
+    console.log("created comment:", created);
   };
 
   return (
     // onSubmit bruger handleSubmit fra react-hook-form til at håndtere validering før onSubmit kaldes
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 mt-10 ">
-
       {/* register "name" binder felt til formular og nedenunder kan i se valideringsregler */}
       <input
         {...register("name", {
@@ -64,7 +98,6 @@ export default function Comments({ postId }: { postId: number }) {
       {errors.content?.message && <div className="text-white">{errors.content.message}</div>}
 
       <div className="flex justify-end">
-      
         <Button text="Submit" />
       </div>
     </form>
