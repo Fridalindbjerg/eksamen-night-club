@@ -15,8 +15,8 @@ const Section3_Gallery = async () => {
   }
 
   return (
-    <div>
-      <div className="max-w-full">
+    <div className="max-w-full">
+      <Suspense fallback={"Loading..."}>
         <Section3_popup gallery={gallery} />
       </Suspense>
     </div>
