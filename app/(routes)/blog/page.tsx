@@ -4,7 +4,6 @@ import Link from "next/link";
 import Button from "../../button";
 import EmailSub from "@/app/components_home/Section8_email_sub";
 import Banner from "@/app/components_home/Banner";
-import { useState, useEffect } from "react";
 import Pagination from "./components/pagination";
 
 export default async function Blogposts({
@@ -19,9 +18,12 @@ export default async function Blogposts({
   const postsPerPage = 3;
 
   // fetch data på almindelig vis, som vi plejer i undervisning
-  // vi indsætter _page ${currentPage} og _limit ${postsPerPage} i url'en for at paginere. 
-  const response = await fetch(`http://localhost:4000/blogposts?_embed=comments&_page=${currentPage}&_limit=${postsPerPage}`);
-    const posts = await response.json();
+  // vi indsætter ${currentPage} og ${postsPerPage} i url'en for at paginere. 
+  const response = await fetch(
+  `http://localhost:4000/blogposts?embed=comments&page=${currentPage}&limit=${postsPerPage}`,
+  { cache: "no-store" }
+);
+const posts = await response.json();
 
      const total = Number(response.headers.get("X-Total-Count") || 0);
     const totalPages = Math.max(1, Math.ceil(total / postsPerPage));

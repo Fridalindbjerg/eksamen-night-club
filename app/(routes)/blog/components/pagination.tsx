@@ -18,13 +18,14 @@
 import { usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
-export default function Pagination({ currentPage, totalPages }: { currentPage: number; totalPages: number }) {
+export default function Pagination({ totalPages }: { totalPages: number }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
 
-  const createPageURL = (page: number) => {
+  const createPageURL = (pageNumber: number | string) => {
     const params = new URLSearchParams(searchParams);
-    params.set("page", page.toString());
+    params.set("page", pageNumber.toString());
     return `${pathname}?${params.toString()}`;
   };
 
@@ -32,34 +33,45 @@ export default function Pagination({ currentPage, totalPages }: { currentPage: n
   const next = Math.min(totalPages, currentPage + 1);
 
   return (
-    <nav className="flex items-center gap-2">
-      {currentPage > 1 ? (
-        <Link href={createPageURL(prev)} className="px-3 py-1 border border-white/40">
-          «
-        </Link>
-      ) : (
-        <span className="px-3 py-1 border border-white/20 opacity-40">«</span>
-      )}
+   <nav className="flex items-center gap-6 text-white text-xl">
+  
+  {/* vi starter med at lave et array, som har længden af total sideantal.
+  
+  
+  */}
+  {Array.from({ length: totalPages }, (value, index) => index + 1).map((p) =>
+    p === currentPage ? (
+      // aktiv: hvid tekst + lille underline (som på skærmbilledet)
+      <span
+        key={p}
+        aria-current="page"
+        className="pb-[2px] border-b border-white/70"
+      >
+        {p}
+      </span>
+    ) : (
+      <Link
+        key={p}
+        href={createPageURL(p)}
+        className="opacity-80 hover:opacity-100 transition-opacity"
+      >
+        {p}
+      </Link>
+    )
+  )}
 
-      {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) =>
-        p === currentPage ? (
-          <span key={p} aria-current="page" className="px-3 py-1 border border-white bg-white text-black">
-            {p}
-          </span>
-        ) : (
-          <Link key={p} href={createPageURL(p)} className="px-3 py-1 border border-white/40 hover:border-white">
-            {p}
-          </Link>
-        )
-      )}
+  {/* mellemrum og 'næste >' */}
+  {currentPage < totalPages ? (
+    <Link
+      href={createPageURL(currentPage + 1)}
+      className="ml-2 opacity-90 hover:opacity-100 transition-opacity"
+    >
+      næste &gt;
+    </Link>
+  ) : (
+    <span className="ml-2 opacity-40 select-none">næste &gt;</span>
+  )}
+</nav>
 
-      {currentPage < totalPages ? (
-        <Link href={createPageURL(next)} className="px-3 py-1 border border-white/40">
-          »
-        </Link>
-      ) : (
-        <span className="px-3 py-1 border border-white/20 opacity-40">»</span>
-      )}
-    </nav>
   );
 }
