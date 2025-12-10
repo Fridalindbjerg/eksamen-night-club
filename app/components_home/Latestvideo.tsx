@@ -38,7 +38,7 @@ export default function VideoCarousel() {
     };
 
     return (
-        <div className="w-full flex flex-col items-center justify-center mt-10 gap-4">
+        <div className="w-full flex flex-col items-center justify-center  gap-4">
 
             {/* Slide */}
             <div className="w-[80%] h-[400px] overflow-hidden relative">
