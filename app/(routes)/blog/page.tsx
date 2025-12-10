@@ -3,12 +3,22 @@ import Link from "next/link";
 import Button from "../../button";
 import EmailSub from "@/app/components_home/Section8_email_sub";
 import Banner from "@/app/components_home/Banner";
+import Pagination from "./components/pagination";
 
-const Blogposts = async () => {
-  "use server";
+export default async function Blogposts({ searchParams }: { searchParams?: { page?: string } }) {
+  // læs side fra url, sæt default til side 1
+  const currentPage = Math.max(1, Number(searchParams?.page) || 1);
 
-  const response = await fetch("http://localhost:4000/blogposts?_embed=comments&_limit=3", { cache: "no-store" });
+  // bestemmer antal posts per side
+  const postsPerPage = 3;
+
+  // fetch data på almindelig vis, som vi plejer i undervisning
+  // vi indsætter ${currentPage} og ${postsPerPage} i url'en for at paginere.
+  const response = await fetch(`http://localhost:4000/blogposts?embed=comments&page=${currentPage}&limit=${postsPerPage}`, { cache: "no-store" });
   const posts = await response.json();
+
+  const total = Number(response.headers.get("X-Total-Count") || 0);
+  const totalPages = Math.max(1, Math.ceil(total / postsPerPage));
 
   return (
     <main className="col-[full-start/full-end] grid grid-cols-subgrid my-8">
@@ -72,11 +82,14 @@ const Blogposts = async () => {
           </div>
         </article>
       ))}
+      <div className="grid col-[full-start/full-end] md:col-[content-start/content-end] justify-items-center">
+        <Pagination currentPage={currentPage} totalPages={totalPages} />
+      </div>
     </main>
   );
-};
+}
 
-export default Blogposts;
+// export default Blogposts;
 
 // const isEven = (n: number) => n % 2 === 0;
 
