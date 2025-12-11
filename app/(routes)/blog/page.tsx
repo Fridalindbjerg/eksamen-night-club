@@ -26,7 +26,7 @@ export default async function Blogposts({
   const currentPage = Math.max(1, Number(sp?.page) || 1);
 
   const postsPerPage = 3;
-  const url = `http://localhost:4000/blogposts?embed=comments&page=${currentPage}&limit=${postsPerPage}`;
+  const url = `http://localhost:4000/blogposts?embed=comments&page=${currentPage}&limit=${postsPerPage}&sort=id&order=desc`;
   const response = await fetch(url, { cache: "no-store" });
 
   const posts = await response.json();
@@ -81,7 +81,6 @@ export default async function Blogposts({
 
             <div className="flex gap-2 font-semibold text-(--pink)">
               <p>BY: {post.author}</p>
-              <p>ID: {post.id}</p>
               <span>/</span>
               <p>{post.comments?.length ?? 0} comments</p>
               <span>/</span>
@@ -100,10 +99,6 @@ export default async function Blogposts({
       ))}
       <div className="grid col-[full-start/full-end] md:col-[content-start/content-end] justify-items-center">
         <Pagination currentPage={currentPage} totalPages={totalPages} />
-
-        <p className="col-[content-start/content-end] opacity-70 text-xs">
-          page={currentPage} — count={posts.length} — ids=[{posts.map((p) => p.id).join(", ")}]
-        </p>
       </div>
     </main>
   );
