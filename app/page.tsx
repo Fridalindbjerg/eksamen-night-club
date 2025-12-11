@@ -7,7 +7,6 @@ import EmailSub from "./components_home/Section8_email_sub";
 import Testimonials from "./components_home/Testimonials";
 import Section2_events from "./components_home/Section2_events";
 
-
 // Timer på loading så den er synlig: Udkommenteres for at fjerne delay
 // async function LoadContent() {
 //   await new Promise((resolve) => setTimeout(resolve, 1500));
@@ -15,17 +14,13 @@ import Section2_events from "./components_home/Section2_events";
 // }
 
 export default function HomePage() {
-
   return (
-    <div>
-      <Hero />
-      <Header />
+    <main className="grid grid-cols-subgrid col-[full-start/full-end]">
       <Section2_events />
       <Section3_Gallery />
-      <Index_h2 text="Latest video" />
       <Latestvideo />
       <Testimonials />
       <EmailSub />
-    </div>
+    </main>
   );
 }
