@@ -18,13 +18,18 @@ type FormFields = {
   comments: string;
 };
 
+// test om vi kan bruge formfields efter data:
 export default function Form({ data: data }: { data: Array<{ id: number; name: string; tablenumber: number; date: string; email: string; password: string; guests: number; phone: number; comments: string }> }) {
+
+  // brug useState til...
   const [selectedDate, setSelectedDate] = useState<Number | null>(null);
 
+  // i const reservations filtrerer vi data for én eneklt reservation hvor vi finder datoen (uagtet af tidszone - getUTCDate) der matcher den valgte dato fra form
   const reservations = data.filter((res) => new Date(res.date).getUTCDate() == selectedDate);
 
   console.log(reservations);
 
+  // her skriver vi de ting ind som vi skal bruge i forms hook, for at håndtere validering og indsendelse af form
   const {
     register,
     handleSubmit,
@@ -33,11 +38,20 @@ export default function Form({ data: data }: { data: Array<{ id: number; name: s
     formState: { errors },
   } = useForm<FormFields>();
 
+  // her opretter vi vores onSubmit som håndterer det der sker når formen bliver submitted
   const onSubmit: SubmitHandler<FormFields> = (data) => {
     console.log(data);
   };
 
+
+  // her laver vi en funktion for handlePickTable, n = det tal (bordnummer), der sendes ind, skal være number.
+  // 
   const handlePickTable = (n: number) => {
+    // setValue kommer fra hooksfrom, der ændrer værdien af et bestemt felt i formularen
+    // shouldValidate: Efter værdien ændres, skal react-hook-form køre validering på feltet.
+    // shouldDirty: dirty= bruger har ændret feltets oprindelige værdi = at forhindre formularen i at blive sendt, hvis intet er ændret.
+
+    // kort sagt -> sæt tablenumber ti n -> marker felt som ændret af bruger -> kør validering på feltet
     setValue("tablenumber", n, { shouldValidate: true, shouldDirty: true });
   };
 
@@ -45,6 +59,7 @@ export default function Form({ data: data }: { data: Array<{ id: number; name: s
 
   return (
     <>
+    {/* tilføjet onPick som kører handlePickedTable */}
       <Tables onPick={handlePickTable} reservedTables={reservations} />
 
       <h1 className="font-medium leading-none uppercase text-3xl  my-2.5 text-white">Book a table</h1>
@@ -74,11 +89,17 @@ export default function Form({ data: data }: { data: Array<{ id: number; name: s
           type="date"
           placeholder="Select Date"
           {...register("date", {
+
+            // onChange fanger datoen der bliver klikket på, så vi kun får dagen (getUTCDate).
+
             onChange: (e) => setSelectedDate(new Date(e.target.value).getUTCDate()),
             required: "Date is required",
+            // BEMÆRK SKAL ÆNDRES VIGTIG!!!
             validate: (value) => /\p{L}{2,}/u.test(value) || "You must choose a date",
           })}
         />
+
+        {/* ret nedenstående error message */}
 
         {errors.tablenumber && <div className="text-white">{errors.tablenumber.message}</div>}
         <input
@@ -129,6 +150,7 @@ export default function Form({ data: data }: { data: Array<{ id: number; name: s
 
         <textarea className="border-white border px-2 py-2  h-36 resize-none md:col-span-2" placeholder="Your Comment" {...register("comments")} />
 
+          {/*  VIGTIGT HUSK TILFØJ SUBMIT SUCCESS BESKED */}
         <div className="md:col-span-2 flex justify-end">
           <Button text="Reserve" />
         </div>

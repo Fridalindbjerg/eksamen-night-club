@@ -3,6 +3,7 @@ import { table } from "console";
 import { isReservedPage } from "next/dist/build/utils";
 import Image from "next/image";
 
+// første del er de props vi sender med til Table komponenten. efter : definerer vi typen af hver prop i typescript. hvis der findes en disabled så er det en boolean.
 function Table({ number, image, onPick, disabled = false }: { number: number; image: string; onPick: (n: number) => void; disabled?: boolean }) {
   return (
     <button
@@ -81,11 +82,14 @@ export default function Tables({ onPick, reservedTables }: { onPick: (n: number)
       <div className="grid gap-4 [grid-template-columns:repeat(auto-fill,_minmax(180px,_1fr))]">
         {tableArr.map((table, id) => {
           const isReserved = reservedTables.find((res) => {
+            console.log("isReserved:", isReserved);
+
             return res.table == table.number;
           });
 
           return <Table key={id} number={table.number} image={table.img} onPick={onPick} disabled={Boolean(isReserved)} />;
         })}
+
         {/* <Table number={1} image="/assets/table/table_1.png" onPick={onPick} />
         <Table number={2} image="/assets/table/table_1.png" onPick={onPick} />
         <Table number={3} image="/assets/table/table_1.png" onPick={onPick} />
