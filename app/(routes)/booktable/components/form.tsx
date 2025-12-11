@@ -38,8 +38,16 @@ export default function Form({ data: data }: { data: Array<{ id: number; name: s
     formState: { errors },
   } = useForm<FormFields>();
 
+ const [buttonText, setButtonText] = useState("Reserve");
+ const [thankYou, setThankYou] = useState<string | null>(null);
+
+
+
+
   // her opretter vi vores onSubmit som håndterer det der sker når formen bliver submitted
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
+setButtonText("Booking...")
+
     // Send POST til serveren for at oprette en ny reservation
     const res = await fetch("http://localhost:4000/reservations", {
       method: "POST",
@@ -56,9 +64,21 @@ export default function Form({ data: data }: { data: Array<{ id: number; name: s
       }),
     });
     // Vent på serverens svar – reservationen kommer nu tilbage med ID genereret af serveren
-    const createdReservation = await res.json();
-    console.log("Created reservation:", createdReservation);
-    reset();
+
+    // OBS TIL MIG SELV PÅ NEDENSTÅENDE
+    // const createdReservation = await res.json();
+    // console.log("Created reservation:", createdReservation);
+  
+    if (!res.ok) {
+    setButtonText("Error");
+    return;
+  }
+
+setThankYou(`Thank you, ${data.name}!`);
+  setButtonText("Your table is now reserved!");
+
+  reset();
+
   };
 
   // her laver vi en funktion for handlePickTable, n = det tal (bordnummer), der sendes ind, skal være number.
@@ -75,107 +95,153 @@ export default function Form({ data: data }: { data: Array<{ id: number; name: s
   const picked = watch("tablenumber");
 
   return (
-    <>
+    <section className="cols-[content-start/content-end]">
       {/* tilføjet onPick som kører handlePickedTable */}
       <Tables onPick={handlePickTable} reservedTables={reservations} />
 
       <h1 className="font-medium leading-none uppercase text-3xl  my-2.5 text-white">Book a table</h1>
       <form
-        className="grid grid-cols-1 md:grid-cols-2
-        auto-rows-auto gap-2 md:gap-4 text-white placeholder-white"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <input
-          className="border-white border px-2 py-2  w-full"
-          //   Type her hvilket slags input felt det er
-          type="text"
-          placeholder="Your Name"
-          {...register("name", {
-            required: "Name is required",
-            //   /\p{L}/u.test(value) søger for navn indeholder bogstaver fra alle sprog og er minimum 2 bogstaver
-            validate: (value) => /\p{L}{2,}/u.test(value) || "Name must be at least 2 letters",
-          })}
-        />
-        {errors.name && <div className="text-white">{errors.name.message}</div>}
+  className="grid grid-cols-1 md:grid-cols-2 gap-4 text-white placeholder-white"
+  onSubmit={handleSubmit(onSubmit)}
+>
 
-        <input type="text" readOnly value={picked ?? ""} className="border-white border px-2 py-2  w-full" placeholder="Click a table above" />
-        {errors.tablenumber && <div className="text-white">{errors.tablenumber.message}</div>}
+  {/* Navn */}
+  <div className="flex flex-col gap-1">
+    {errors.name ? (
+      <span className="text-red-500 text-sm">{errors.name.message}</span>
+    ) : (
+      <span className="h-4"></span>
+    )}
 
-        <input
-          className="border-white border px-2 py-2  w-full"
-          type="date"
-          placeholder="Select Date"
-          {...register("date", {
-            // onChange fanger datoen der bliver klikket på, så vi kun får dagen (getUTCDate).
+    <input
+      className="border-white border px-2 py-2 w-full"
+      type="text"
+      placeholder="Your Name"
+      {...register("name", {
+        required: "Name is required",
+        validate: (value) => /\p{L}{2,}/u.test(value) || "Name must be at least 2 letters",
+      })}
+    />
+  </div>
 
-            onChange: (e) => setSelectedDate(new Date(e.target.value).getUTCDate()),
-            required: "Date is required",
-            // BEMÆRK SKAL ÆNDRES VIGTIG!!!
-            validate: (value) => {
-              // godkend hvis den kan parses og er i format YYYY-MM-DD
-              return !Number.isNaN(Date.parse(value)) || "You must choose a valid date";
-            },
-          })}
-        />
-        {errors.date && <div className="text-white">{errors.date.message}</div>}
+  {/* Table number */}
+<div className="flex flex-col gap-1">
+  {errors.tablenumber ? (
+    <span className="text-red-500 text-sm">{errors.tablenumber.message}</span>
+  ) : (
+    <span className="h-4"></span>  
+  )}
 
-        {/* ret nedenstående error message */}
+  <input
+    className="border-white border px-2 py-2 w-full"
+    type="text"
+    readOnly
+    placeholder="Click a table above"
+    value={picked ?? ""}
+    {...register("tablenumber", {
+      required: "Please pick a table",
+    })}
+  />
+</div>
 
-        {/* {errors.tablenumber && <div className="text-white">{errors.tablenumber.message}</div>} */}
+  {/* Dato */}
+  <div className="flex flex-col gap-1">
+    {errors.date ? (
+      <span className="text-red-500 text-sm">{errors.date.message}</span>
+    ) : (
+      <span className="h-4"></span>
+    )}
 
-        <input
-          className="border-white border px-2 py-2  w-full"
-          type="text"
-          placeholder="Email"
-          {...register("email", {
-            required: "Email is required",
-            validate: (value) => value.includes("@") || "Email must include @",
-          })}
-        />
-        {errors.email && <div className="text-white">{errors.email.message}</div>}
+    <input
+      className="border-white border px-2 py-2 w-full [&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:cursor-pointer"
+      type="date"
+      {...register("date", {
+        onChange: (e) => setSelectedDate(new Date(e.target.value).getUTCDate()),
+        required: "Date is required",
+        validate: (value) => !Number.isNaN(Date.parse(value)) || "You must choose a valid date",
+      })}
+    />
+  </div>
 
-        <input
-          className="border-white border px-2 py-2  w-full"
-          type="number"
-          placeholder="Number of Guests"
-          {...register("guests", {
-            required: "Number of guests is required",
-            //   Her har jeg indsat en minimum og maximum værdi for antal gæster
-            min: {
-              value: 1,
-              message: "Minimum guests is 1",
-            },
-            max: {
-              value: 40,
-              message: "Maximum guests is 40",
-            },
-          })}
-        />
-        {errors.guests && <div className="text-white">{errors.guests.message}</div>}
+  {/* Email */}
+  <div className="flex flex-col gap-1">
+    {errors.email ? (
+      <span className="text-red-500 text-sm">{errors.email.message}</span>
+    ) : (
+      <span className="h-4"></span>
+    )}
 
-        <input
-          className="border-white border px-2 py-2  w-full"
-          type="number"
-          placeholder="Phone Number"
-          {...register("phone", {
-            required: "Phone number is required",
-            pattern: {
-              value: /^\+?[1-9]\d{7,14}$/,
-              message: "Invalid phone number",
-            },
-          })}
-        />
-        {errors.phone && <div className="text-white">{errors.phone.message}</div>}
+    <input
+      className="border-white border px-2 py-2 w-full"
+      type="text"
+      placeholder="Email"
+      {...register("email", {
+        required: "Email is required",
+        validate: (value) => value.includes("@") || "Email must include @",
+      })}
+    />
+  </div>
 
-        {/* <input className="border-white border px-2 py-2  md:col-span-2 h-36" type="text" placeholder="Your Comment" {...register("comments", {})} /> */}
+  {/* Antal gæster */}
+  <div className="flex flex-col gap-1">
+    {errors.guests ? (
+      <span className="text-red-500 text-sm">{errors.guests.message}</span>
+    ) : (
+      <span className="h-4"></span>
+    )}
 
-        <textarea className="border-white border px-2 py-2  h-36 resize-none md:col-span-2" placeholder="Your Comment" {...register("comments")} />
+    <input
+      className="border-white border px-2 py-2 w-full"
+      type="number"
+      placeholder="Number of Guests"
+      {...register("guests", {
+        required: "Number of guests is required",
+        min: { value: 1, message: "Minimum guests is 1" },
+        max: { value: 40, message: "Maximum guests is 40" },
+      })}
+    />
+  </div>
 
-        {/*  VIGTIGT HUSK TILFØJ SUBMIT SUCCESS BESKED */}
-        <div className="md:col-span-2 flex justify-end">
-          <Button text="Reserve" type="submit" />
-        </div>
-      </form>
-    </>
+  {/* Tlf nr */}
+  <div className="flex flex-col gap-1">
+    {errors.phone ? (
+      <span className="text-red-500 text-sm">{errors.phone.message}</span>
+    ) : (
+      <span className="h-4"></span>
+    )}
+
+    <input
+      className="border-white border px-2 py-2 w-full"
+      type="tel"
+      placeholder="Phone Number"
+      {...register("phone", {
+        required: "Phone number is required",
+        pattern: { value: /^\+?[1-9]\d{7,14}$/, message: "Invalid phone number" },
+      })}
+    />
+  </div>
+
+  {/* Kommentar */}
+  <div className="flex flex-col gap-1 md:col-span-2">
+    <span className="h-4"></span>
+    <textarea
+      className="border-white border px-2 py-2 h-36 resize-none w-full"
+      placeholder="Your Comment"
+      {...register("comments")}
+    />
+  </div>
+
+  {/* Submit */}
+  <div className="md:col-span-2 flex justify-end">
+    {thankYou && (
+  <div className="md:col-span-2 text-white">
+    {thankYou}
+  </div>
+)}
+      <Button text={buttonText} type="submit"/>
+  </div>
+</form>
+
+    </section>
   );
 }

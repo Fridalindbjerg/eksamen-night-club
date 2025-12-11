@@ -1,9 +1,11 @@
 type Props = {
   text: string;
   type?: "button" | "submit" | "reset";
+  disabled?: boolean;
+ 
 };
 
-const Button = ({ text, type }: Props) => {
+const Button = ({ text, type, disabled, className }: Props) => {
   return (
     <button
       className="px-6 py-3
@@ -12,8 +14,9 @@ const Button = ({ text, type }: Props) => {
         border-t border-b border-white
         bg-transparent
         transition-colors duration-200
-        hover:bg-white hover:text-black"
+        hover:bg-white hover:text-black hover:cursor-pointer"
       type={type}
+      disabled={disabled} 
     >
       {text}
     </button>
