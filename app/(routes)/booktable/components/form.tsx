@@ -34,6 +34,7 @@ export default function Form({ data: data }: { data: Array<{ id: number; name: s
     handleSubmit,
     setValue,
     watch,
+    reset,
     formState: { errors },
   } = useForm<FormFields>();
 
@@ -57,6 +58,7 @@ export default function Form({ data: data }: { data: Array<{ id: number; name: s
     // Vent på serverens svar – reservationen kommer nu tilbage med ID genereret af serveren
     const createdReservation = await res.json();
     console.log("Created reservation:", createdReservation);
+    reset();
   };
 
   // her laver vi en funktion for handlePickTable, n = det tal (bordnummer), der sendes ind, skal være number.
@@ -120,9 +122,7 @@ export default function Form({ data: data }: { data: Array<{ id: number; name: s
         {/* ret nedenstående error message */}
 
         {/* {errors.tablenumber && <div className="text-white">{errors.tablenumber.message}</div>} */}
-        
-        
-        
+
         <input
           className="border-white border px-2 py-2  w-full"
           type="text"
