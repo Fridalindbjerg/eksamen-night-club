@@ -7,7 +7,7 @@ export default async function Section2_events() {
 
 
     return (
-        <section className="w-full">
+        <section className="col-[content-start/content-end]">
             <div className="">
                 <Suspense fallback={"Loading..."}>
                     <Section2_overlay events={events} />
