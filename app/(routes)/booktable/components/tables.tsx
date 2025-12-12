@@ -3,17 +3,6 @@ import { table } from "console";
 import { isReservedPage } from "next/dist/build/utils";
 import Image from "next/image";
 
-export type Reservation = {
-  id: number;
-  tablenumber: number; // ← vigtigt: matcher dine data
-  date: string;
-  name: string;
-  email: string;
-  guests: number;
-  phone: number;
-  comments: string;
-};
-
 // første del er de props vi sender med til Table komponenten. efter : definerer vi typen af hver prop i typescript. hvis der findes en disabled så er det en boolean.
 function Table({ number, image, onPick, disabled = false }: { number: number; image: string; onPick: (n: number) => void; disabled?: boolean }) {
   return (
@@ -32,8 +21,7 @@ function Table({ number, image, onPick, disabled = false }: { number: number; im
   );
 }
 
-export default function Tables({ onPick, reservedTables }: { onPick: (n: number) => void; reservedTables: Reservation[] }) {
-
+export default function Tables({ onPick, reservedTables }: { onPick: (n: number) => void; reservedTables: Array<{ id: number; table: number; date: string }> }) {
   const tableArr = [
     {
       number: 1,
@@ -114,13 +102,13 @@ export default function Tables({ onPick, reservedTables }: { onPick: (n: number)
 
   return (
     <div className="grid grid-cols-3 md:grid-cols-5 gap-4 place-items-center">
-       {tableArr.map((table, id) => {
-          const isReserved = reservedTables.find((res) => {
-            return res.tablenumber === table.number;
-          });
+      {tableArr.map((table, id) => {
+        const isReserved = reservedTables.find((res) => {
+          return res.table == table.number;
+        });
 
-          return <Table key={id} number={table.number} image={table.img} onPick={onPick} disabled={Boolean(isReserved)} />;
-        })}
+        return <Table key={id} number={table.number} image={table.img} onPick={onPick} disabled={Boolean(isReserved)} />;
+      })}
     </div>
   );
 }
@@ -128,10 +116,3 @@ export default function Tables({ onPick, reservedTables }: { onPick: (n: number)
 {
   /* <div className="grid gap-4 space-between [grid-template-columns:repeat(auto-fill,_minmax(200px,_1fr))]"> */
 }
-
-
-
-
-
-
-
