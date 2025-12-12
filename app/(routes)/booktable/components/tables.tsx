@@ -1,18 +1,21 @@
 "use client";
-import { table } from "console";
-import { isReservedPage } from "next/dist/build/utils";
 import Image from "next/image";
+
+export type Reservation = {
+  id: number;
+  tablenumber: number; // ← vigtigt: matcher dine data
+  date: string;
+  name: string;
+  email: string;
+  guests: number;
+  phone: number;
+  comments: string;
+};
 
 // første del er de props vi sender med til Table komponenten. efter : definerer vi typen af hver prop i typescript. hvis der findes en disabled så er det en boolean.
 function Table({ number, image, onPick, disabled = false }: { number: number; image: string; onPick: (n: number) => void; disabled?: boolean }) {
   return (
-    <button
-      type="button"
-      onClick={() => !disabled && onPick(number)}
-      disabled={disabled}
-      className={["relative w-32 h-32 rounded-xl transition", disabled ? "opacity-40 cursor-not-allowed" : "cursor-pointer"].join(" ")}
-      aria-label={`Table ${number}`}
-    >
+    <button type="button" onClick={() => !disabled && onPick(number)} disabled={disabled} className={["relative w-32 h-32 rounded-xl transition", disabled ? "opacity-40 cursor-not-allowed" : "cursor-pointer"].join(" ")} aria-label={`Table ${number}`}>
       <Image src={image} alt={`Table ${number}`} fill className="object-contain" sizes="(max-width:640px) 96px, (max-width:1024px) 128px, 160px" loading="eager" />
       <span className="pointer-events-none absolute inset-0 flex items-center justify-center">
         <span className="text-white font-bold px-2 py-1 ">{number}</span>
@@ -21,7 +24,7 @@ function Table({ number, image, onPick, disabled = false }: { number: number; im
   );
 }
 
-export default function Tables({ onPick, reservedTables }: { onPick: (n: number) => void; reservedTables: Array<{ id: number; table: number; date: string }> }) {
+export default function Tables({ onPick, reservedTables }: { onPick: (n: number) => void; reservedTables: Reservation[] }) {
   const tableArr = [
     {
       number: 1,
@@ -79,10 +82,10 @@ export default function Tables({ onPick, reservedTables }: { onPick: (n: number)
     <div className="w-full mx-auto p-4">
       <h1 className="text-center text-3xl font-bold mb-8">BOOK TABLE</h1>
 
-      <div className="grid gap-4 [grid-template-columns:repeat(auto-fill,_minmax(180px,_1fr))]">
+      <div className="grid gap-4 grid-cols[repeat(auto-fill,_minmax(180px,_1fr))]">
         {tableArr.map((table, id) => {
           const isReserved = reservedTables.find((res) => {
-            return res.table == table.number;
+            return res.tablenumber === table.number;
           });
 
           return <Table key={id} number={table.number} image={table.img} onPick={onPick} disabled={Boolean(isReserved)} />;

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import type { Reservation } from "./tables";
 
 import Tables from "./tables";
 import Button from "@/app/button";
@@ -19,7 +20,7 @@ type FormFields = {
 };
 
 // test om vi kan bruge formfields efter data:
-export default function Form({ data: data }: { data: Array<{ id: number; name: string; tablenumber: number; date: string; email: string; password: string; guests: number; phone: number; comments: string }> }) {
+export default function Form({ data }: { data: Reservation[] }) {
   // brug useState til...
   const [selectedDate, setSelectedDate] = useState<Number | null>(null);
 
