@@ -5,6 +5,17 @@ import EmailSub from "@/app/components_home/Section8_email_sub";
 import Banner from "@/app/components_home/Banner";
 import Pagination from "./components/pagination";
 
+// Definerer typen for en blogpost, ellers antager den at post er af typen any.
+type BlogPost = {
+  id: number;
+  title: string;
+  author?: string;
+  date?: string;
+  content?: string;
+  comments?: unknown[]; // vi bruger kun length
+  asset?: { url: string };
+};
+
 // export default async function Blogposts({ searchParams }: { searchParams?: { page?: string } }) {
 // læs side fra url, sæt default til side 1
 // const currentPage = Math.max(1, Number(searchParams?.page) || 1);
@@ -29,7 +40,7 @@ export default async function Blogposts({
   const url = `http://localhost:4000/blogposts?embed=comments&page=${currentPage}&limit=${postsPerPage}&sort=id&order=desc`;
   const response = await fetch(url, { cache: "no-store" });
 
-  const posts = await response.json();
+  const posts: BlogPost[] = await response.json();
   const total = Number(response.headers.get("X-Total-Count") || 0);
   const totalPages = Math.max(1, Math.ceil(total / postsPerPage));
 
