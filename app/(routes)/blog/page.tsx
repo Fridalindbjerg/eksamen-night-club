@@ -17,6 +17,18 @@ import Pagination from "./components/pagination";
 // const response = await fetch(`http://localhost:4000/blogposts?embed=comments&page=${currentPage}&limit=${postsPerPage}&sort=id&order=desc`, { cache: "no-store" });
 // const posts = await response.json();
 
+type Post = {
+  id: number;
+  title: string;
+  author: string;
+  content: string;
+  date: string;
+  asset: {
+    url: string;
+  };
+  comments?: { id: number }[];
+};
+
 export default async function Blogposts({
   searchParams,
 }: {
@@ -40,45 +52,25 @@ export default async function Blogposts({
       <Banner text="Blog" />
       <h1 className="col-[content-start/content-end] text-3xl font-bold my-5">De 3 nyeste blogposts</h1>
 
-      {posts.map((post) => (
+      {posts.map((post: Post) => (
         <article
           key={post.id}
           className="col-[full-start/full-end]
             grid grid-cols-subgrid items-start
-
-            
-            
             *:mx-0
             md:*:row-start-1 
-
-
-            
-             md:[&>*:first-child]:col-[full-start/full-end]
+            md:[&>*:first-child]:col-[full-start/full-end]
             md:[&>*:first-child]:md:col-[full-start/middle]
             md:[&>*:last-child]:col-[content-start/content-end]
             md:[&>*:last-child]:md:col-[middle/content-end]
-
-             even:md:[&>*:first-child]:col-[middle/full-end]
-            even:md:[&>*:last-child]:col-[content-start/middle]
-"
+            even:md:[&>*:first-child]:col-[middle/full-end]
+            even:md:[&>*:last-child]:col-[content-start/middle]"
         >
-          {/* Billede (1st child) */}
           <div className="col-[full-start/full-end]">
             <img src={post.asset?.url} alt={post.title} className="w-full h-[360px] md:h-[480px] object-cover" />
           </div>
-
-          {/* Tekst (last child) */}
-          <div
-            className="   mx-5 my-10  
-    col-[content-start/content-end] 
-    space-y-4
-
-    
-
-"
-          >
+          <div className="mx-5 my-10 col-[content-start/content-end]space-y-4">
             <h2 className="text-xl font-medium uppercase">{post.title}</h2>
-
             <div className="flex gap-2 font-semibold text-(--pink)">
               <p>BY: {post.author}</p>
               <span>/</span>
@@ -86,9 +78,7 @@ export default async function Blogposts({
               <span>/</span>
               <p>{post.date}</p>
             </div>
-
             <p className="line-clamp-6">{post.content}</p>
-
             <div>
               <Link href={`/blogposts/${post.id}`} className="px-6 py-3 text-xs font-semibold tracking-widest uppercase text-white border-t border-b border-white bg-transparent transition-colors duration-200 hover:bg-white hover:text-black">
                 READ MORE

@@ -1,9 +1,14 @@
 import { div } from "framer-motion/client";
 import Comments from "./components/comments";
 import Button from "../../../button";
-import Header from "../../../Header";
 
-const Blog = async ({ params }) => {
+interface BlogParams {
+  params: {
+    id: string;
+  };
+}
+
+const Blog = async ({ params }: BlogParams) => {
   const { id } = await params;
 
   const response = await fetch(`http://localhost:4000/blogposts/${id}?embed=comments`, { cache: "no-store" });
@@ -14,7 +19,6 @@ const Blog = async ({ params }) => {
   const count = comments.length;
 
   return (
-    
     <div className="grid grid-cols-subgrid col-[full-start/full-end]">
       <div className="grid col-[full-start/full-end] md:col-[content-start/content-end]">
         <img src={singlepost.asset.url} alt={singlepost.title} className="w-full h-auto object-cover" />
