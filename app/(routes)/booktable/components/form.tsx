@@ -7,7 +7,8 @@ import Tables from "./tables";
 import Button from "@/app/button";
 
 // definer type (KUN i typescript) for form felter
-type FormFields = {
+interface Reservation {
+  id: number;
   name: string;
   table: number;
   date: string;
@@ -16,10 +17,12 @@ type FormFields = {
   guests: number;
   phone: number;
   comments: string;
-};
+}
 
-// test om vi kan bruge formfields efter data:
-export default function Form({ data: data }: { data: Array<{ id: number; name: string; table: number; date: string; email: string; password: string; guests: number; phone: number; comments: string }> }) {
+// Formularen har ikke id, så vi kan bruge Omit for at fjerne id feltet fra formfieldstypen
+type FormFields = Omit<Reservation, "id">;
+
+export default function Form({ data }: { data: Reservation[] }) {
   // brug useState til...
 
   // const [selectedDate, setSelectedDate] = useState<Number | null>(null);
@@ -99,7 +102,7 @@ export default function Form({ data: data }: { data: Array<{ id: number; name: s
   const picked = watch("table");
 
   return (
-    <section className="cols-[content-start/content-end]">
+    <section className="col-[content-start/content-end]">
       {/* tilføjet onPick som kører handlePickedTable */}
       <Tables onPick={handlePickTable} reservedTables={formattedReservations} />
 

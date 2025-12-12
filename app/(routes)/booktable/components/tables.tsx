@@ -3,16 +3,17 @@ import { table } from "console";
 import { isReservedPage } from "next/dist/build/utils";
 import Image from "next/image";
 
+interface TableProps {
+  number: number;
+  image: string;
+  onPick: (n: number) => void;
+  disabled?: boolean;
+}
+
 // første del er de props vi sender med til Table komponenten. efter : definerer vi typen af hver prop i typescript. hvis der findes en disabled så er det en boolean.
-function Table({ number, image, onPick, disabled = false }: { number: number; image: string; onPick: (n: number) => void; disabled?: boolean }) {
+function Table({ number, image, onPick, disabled = false }: TableProps) {
   return (
-    <button
-      type="button"
-      onClick={() => !disabled && onPick(number)}
-      disabled={disabled}
-      className={["relative w-32 h-32 rounded-xl transition", disabled ? "opacity-40 cursor-not-allowed" : "cursor-pointer"].join(" ")}
-      aria-label={`Table ${number}`}
-    >
+    <button type="button" onClick={() => !disabled && onPick(number)} disabled={disabled} className={["relative w-32 h-32 rounded-xl transition", disabled ? "opacity-40 cursor-not-allowed" : "cursor-pointer"].join(" ")} aria-label={`Table ${number}`}>
       <Image src={image} alt={`Table ${number}`} fill className="object-contain" sizes="(max-width:640px) 96px, (max-width:1024px) 128px, 160px" loading="eager" />
       <span className="pointer-events-none absolute inset-0 flex items-center justify-center">
         <span className="text-white font-bold px-2 py-1 ">{number}</span>
