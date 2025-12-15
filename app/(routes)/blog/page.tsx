@@ -56,7 +56,6 @@ async function Blogposts({ searchParams }: { searchParams: Promise<{ page?: stri
   return (
     <main className="col-[full-start/full-end] grid grid-cols-subgrid my-8">
       <Banner text="Blog" />
-      <h1 className="col-[content-start/content-end] text-3xl font-bold my-5">De 3 nyeste blogposts</h1>
 
       {posts.map((post: Post) => (
         <section

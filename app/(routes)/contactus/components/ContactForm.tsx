@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 import Button from "@/app/button";
-// definer type (KUN i typescript) for form felter
+// definerer type (KUN i typescript) for form felter
 type FormFields = {
   name: string;
   email: string;
