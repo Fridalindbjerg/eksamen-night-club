@@ -41,32 +41,42 @@ export default function TrackCarousel() {
         <div className="flex place-items-center ">
           <FaRegArrowAltCircleLeft onClick={prev} />
         </div>
-        <div className="flex  flex-col items-center gap-4">
-          {/* Billede */}
+        <div className="flex flex-col items-center ">
+          <div className="flex overflow-x-auto w-full">
+            {tracks.map((track, i) => {
+              const isActive = i === activeIndex;
 
-          {/* Thumbnails */}
-          <div className="flex overflow-x-auto ">
-            {tracks.map((track, i) => (
-              <div
-                key={i}
-                onClick={() => setActiveIndex(i)}
-                className={`relative shrink-0 cursor-pointer rounded
-        ${i === activeIndex ? "border-2 border-pink-500" : ""}
-      `}
-              >
-                <Image src={track.img} width={150} height={150} alt="thumbnail" />
+              return (
+                <div
+                  key={i}
+                  onClick={() => setActiveIndex(i)}
+                  className={`relative shrink-0 cursor-pointer rounded
+          border-2
+          ${isActive ? "border-pink-500 mx-auto" : "border-transparent"}
+          ${isActive ? "block" : "hidden"} sm:block sm:mx-0
+        `}
+                >
+                  <Image src={track.img} width={150} height={150} alt="thumbnail" />
 
-                {i === activeIndex && (
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <svg xmlns="/assets/icon/Play_btn.svg" className="h-8 w-8 text-pink-500" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
-                  </div>
-                )}
-              </div>
-            ))}
+                  {isActive && (
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <svg className="h-8 w-8 text-pink-500" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </div>
+                  )} {isActive && (
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <svg className="h-8 w-8 text-pink-500" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
+
         <div className="flex place-items-center">
           <FaRegArrowAltCircleRight onClick={next} />
         </div>
