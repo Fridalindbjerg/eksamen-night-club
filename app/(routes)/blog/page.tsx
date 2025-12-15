@@ -59,7 +59,7 @@ async function Blogposts({ searchParams }: { searchParams: Promise<{ page?: stri
       <h1 className="col-[content-start/content-end] text-3xl font-bold my-5">De 3 nyeste blogposts</h1>
 
       {posts.map((post: Post) => (
-        <article
+        <section
           key={post.id}
           className="col-[full-start/full-end]
             grid grid-cols-subgrid items-start
@@ -97,7 +97,7 @@ async function Blogposts({ searchParams }: { searchParams: Promise<{ page?: stri
               </Link>
             </div>
           </div>
-        </article>
+        </section>
       ))}
       <div className="grid col-[full-start/full-end] md:col-[content-start/content-end] justify-items-center">
         <Pagination currentPage={currentPage} totalPages={totalPages} />
