@@ -39,12 +39,8 @@ export default function Page({ searchParams }: { searchParams?: { page?: string 
   );
 }
 
-async function Blogposts({
-  searchParams,
-}: {
-  searchParams: Promise<{ page?: string }>; // <-- note Promise here
-}) {
-  const sp = await searchParams; // <-- unwrap
+async function Blogposts({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
+  const sp = await searchParams;
   const currentPage = Math.max(1, Number(sp?.page) || 1);
 
   const postsPerPage = 3;
@@ -60,10 +56,9 @@ async function Blogposts({
   return (
     <main className="col-[full-start/full-end] grid grid-cols-subgrid my-8">
       <Banner text="Blog" />
-      <h1 className="col-[content-start/content-end] text-3xl font-bold my-5">De 3 nyeste blogposts</h1>
 
       {posts.map((post: Post) => (
-        <article
+        <section
           key={post.id}
           className="col-[full-start/full-end]
             grid grid-cols-subgrid items-start
@@ -101,7 +96,7 @@ async function Blogposts({
               </Link>
             </div>
           </div>
-        </article>
+        </section>
       ))}
       <div className="grid col-[full-start/full-end] md:col-[content-start/content-end] justify-items-center">
         <Pagination currentPage={currentPage} totalPages={totalPages} />
