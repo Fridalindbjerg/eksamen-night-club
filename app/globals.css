@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+
+
+
 :root {
   --foreground: #ffffff;
   --background: #171717;
@@ -35,6 +38,43 @@ body {
 
 .col-content {
   grid-column: content-start / content-end;
+}
+
+
+
+
+
+
+/* test */
+
+.player-dark {
+
+  /* important gør at vi overrider playerens defalut styling */
+  background: black !important;
+  color: white !important;
+
+  /* ikoner skal være hvide */
+  svg, .rhap_time, .rhap_header {
+  fill: white !important;
+  color: white !important;
+}
+
+/* afspiller-bar-linje + download-progress er den del der er "buffet"/loaded + volumen bar*/ 
+  .rhap_progress-bar,
+.rhap_download-progress, .rhap_volume-bar{
+  background: var(--pink) !important;
+}
+/* den del der er afspillet + knopper */
+.rhap_progress-filled,
+.rhap_volume-indicator,
+.rhap_progress-indicator {
+  background: white !important;
+}
+
+
+
+
+
 }
 
 main > section {
