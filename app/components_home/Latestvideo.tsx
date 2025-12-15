@@ -48,7 +48,7 @@ export default function VideoCarousel() {
 
 
                 {/* Slide */}
-                <div className="w-[80%] h-[400px] overflow-hidden relative">
+                <div className="w-full aspect-video overflow-hidden relative">
                     <AnimatePresence initial={false} custom={direction} mode="popLayout">
                         <VideoSlide key={videos[index].id} video={videos[index]} custom={direction} />
                     </AnimatePresence>
