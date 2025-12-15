@@ -39,12 +39,8 @@ export default function Page({ searchParams }: { searchParams?: { page?: string 
   );
 }
 
-async function Blogposts({
-  searchParams,
-}: {
-  searchParams: Promise<{ page?: string }>; // <-- note Promise here
-}) {
-  const sp = await searchParams; // <-- unwrap
+async function Blogposts({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
+  const sp = await searchParams;
   const currentPage = Math.max(1, Number(sp?.page) || 1);
 
   const postsPerPage = 3;
