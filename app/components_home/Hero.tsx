@@ -31,13 +31,13 @@ export default function HomePage() {
   return (
     <Suspense
       fallback={
-        <div className="flex items-center justify-center w-screen h-screen" style={{ backgroundColor: "var(--foreground)" }}>
+        <div className="flex items-center justify-center w-screen h-screen" style={{ backgroundColor: "var(--background)" }}>
           <Image
             src="/assets/loader/madbars.gif"
             alt="Loading..."
             width={100}
             height={100}
-            className="w-full h-auto"
+            className="w-auto h-auto"
             priority
           />
         </div>
