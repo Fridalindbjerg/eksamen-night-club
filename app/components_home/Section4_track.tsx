@@ -30,7 +30,7 @@ export default function TrackCarousel() {
   };
 
   return (
-    <section className="grid grid-cols">
+    <section className="grid subgrid col-[content-start/content-end]">
       <Index_h2 text="Night club track" />
       <div className="flex  ">
         <Image src={tracks[activeIndex].img} width={250} height={250} alt="Current Track" className="hidden sm:flex" />

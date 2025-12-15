@@ -25,11 +25,12 @@ export default function HomePage() {
       <Suspense fallback={<div>Loading gallery...</div>}>
         <Section3_Gallery />
       </Suspense>
+      <Section4_track />
       <Latestvideo />
       <Suspense fallback={<div>Loading testimonials...</div>}>
         <Testimonials />
       </Suspense>
-    {/* LÆG RECENT BLOG IND I SUSPENSE !!!!! */}
+      {/* LÆG RECENT BLOG IND I SUSPENSE !!!!! */}
       <EmailSub />
       <Suspense fallback={<div>Loading recent blog...</div>}>
         <Recentblog />
