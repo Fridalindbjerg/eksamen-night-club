@@ -1,6 +1,6 @@
 "use client";
 import "react-h5-audio-player/lib/styles.css";
-
+import Index_h2 from "./Index_h2";
 import { FaRegArrowAltCircleRight, FaRegArrowAltCircleLeft } from "react-icons/fa";
 
 import { useState } from "react";
@@ -31,6 +31,7 @@ export default function TrackCarousel() {
 
   return (
     <section className="grid grid-cols">
+      <Index_h2 text="Night club track" />
       <div className="flex  ">
         <Image src={tracks[activeIndex].img} width={250} height={250} alt="Current Track" className="hidden sm:flex" />
 
@@ -50,26 +51,45 @@ export default function TrackCarousel() {
                 <div
                   key={i}
                   onClick={() => setActiveIndex(i)}
-                  className={`relative shrink-0 cursor-pointer rounded
-          border-2
-          ${isActive ? "border-pink-500 mx-auto" : "border-transparent"}
-          ${isActive ? "block" : "hidden"} sm:block sm:mx-0
-        `}
+                  className={`relative group shrink-0 cursor-pointer 
+  
+    ${isActive ? "block" : "hidden"} sm:block sm:mx-0
+  `}
                 >
-                  <Image src={track.img} width={150} height={150} alt="thumbnail" />
-
+                  <Image src={track.img} loading="eager" width={500} height={500} alt="thumbnail" className="w-full h-auto object-cover " />
                   {isActive && (
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                      <svg className="h-8 w-8 text-pink-500" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
+                      <Image src="/assets/icon/Play_btn.svg" width={60} height={60} alt="Play Icon" />
                     </div>
-                  )} {isActive && (
-                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                      <svg className="h-8 w-8 text-pink-500" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
-                    </div>
+                  )}
+
+                  {/* Triangles */}
+                  {isActive && (
+                    <>
+                      {/* Bottom-right triangle */}
+                      <div
+                        className="
+                                  absolute bottom-0 right-0
+                                  w-0 h-0
+                                  border-l-30 border-l-transparent
+                                  border-b-30 border-b-(--pink)
+                                  opacity-100 
+                                  pointer-events-none"
+                      />
+
+                      {/* Top-left triangle */}
+                      <div
+                        className="
+          absolute top-0 left-0
+          w-0 h-0
+          border-r-30 border-r-transparent
+          border-t-30 border-t-(--pink)
+          opacity-100 
+          pointer-events-none
+        "
+                      />
+                      <div></div>
+                    </>
                   )}
                 </div>
               );
