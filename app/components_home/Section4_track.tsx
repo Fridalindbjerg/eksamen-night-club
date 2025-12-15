@@ -31,31 +31,39 @@ export default function TrackCarousel() {
 
   return (
     <section className="grid grid-cols">
-      <div className="flex ">
-        <Image src={tracks[activeIndex].img} width={250} height={250} alt="Current Track" />
+      <div className="flex  ">
+        <Image src={tracks[activeIndex].img} width={250} height={250} alt="Current Track" className="hidden sm:flex" />
 
         {/* Audio Player */}
         <AudioPlayer src={tracks[activeIndex].audio} autoPlay={false} />
       </div>
       <div className="flex">
-        <div className="flex place-items-center">
+        <div className="flex place-items-center ">
           <FaRegArrowAltCircleLeft onClick={prev} />
         </div>
         <div className="flex  flex-col items-center gap-4">
           {/* Billede */}
 
           {/* Thumbnails */}
-          <div className="flex overflow-x-auto">
+          <div className="flex overflow-x-auto ">
             {tracks.map((track, i) => (
-              <Image
+              <div
                 key={i}
-                src={track.img}
-                width={150}
-                height={150}
-                alt="thumbnail"
-                className={`cursor-pointer rounded ${i === activeIndex ? "ring-2 ring-blue-500" : ""}`}
-                onClick={() => setActiveIndex(i)} // klik på thumbnail = opdater activeIndex
-              />
+                onClick={() => setActiveIndex(i)}
+                className={`relative shrink-0 cursor-pointer rounded
+        ${i === activeIndex ? "border-2 border-pink-500" : ""}
+      `}
+              >
+                <Image src={track.img} width={150} height={150} alt="thumbnail" />
+
+                {i === activeIndex && (
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <svg xmlns="/assets/icon/Play_btn.svg" className="h-8 w-8 text-pink-500" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </div>
+                )}
+              </div>
             ))}
           </div>
         </div>
