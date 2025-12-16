@@ -8,19 +8,18 @@ type FormFields = {
 };
 
 const EmailSub = () => {
-  // starter komponenten
-
-  const [buttonText, setButtonText] = useState("Subscribe");
   //   benyttet ai til hjælp. Hjælp til hvordan jeg bruger useState til at ændre knap tekst efter submit.
   //   opretter et state til knap tekst - sådan så knaptekst ændrer sig efter submit. Udgangs tekst er "Subscribe".
+  const [buttonText, setButtonText] = useState("Subscribe");
 
   const {
-    register,
     // sørger for at validering sker ved tryk på submit knap
-    handleSubmit,
+    register,
     // håndterer submit og kalder onSubmit hvis validering er bestået
-    reset,
+    handleSubmit,
     // gør så formen nulstilles efter submit
+    reset,
+    // fejl fra validering
     formState: { errors },
   } = useForm<FormFields>();
 
@@ -60,8 +59,7 @@ const EmailSub = () => {
       </p>
 
       <form
-        className="grid grid-cols-1 md:grid-cols-[2fr_max-content] 
-   gap-y-4 md:gap-y-4 gap-x-4 text-white placeholder-white"
+        className="grid grid-cols-1 md:grid-cols-[2fr_max-content] gap-y-4 md:gap-y-4 gap-x-4 text-white placeholder-white"
         onSubmit={handleSubmit(onSubmit)}
       >
         <input

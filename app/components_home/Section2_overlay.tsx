@@ -13,6 +13,7 @@ interface Events {
   location: string;
 }
 
+// Props interface
 interface Props {
   events: Events[];
 }
@@ -24,7 +25,7 @@ export default function EventsCaroussel({ events }: Props) {
   // Hvor mange event-kort pr. slide
   const itemsPerSlide = 2;
 
-  // Split events op i arrays af 2 (2 per slide)
+  // Splitter events op i arrays af 2 (2 pr. slide) med slice 
   const slides = [];
   for (let i = 0; i < events.length; i += itemsPerSlide) {
     slides.push(events.slice(i, i + itemsPerSlide));
@@ -50,20 +51,22 @@ export default function EventsCaroussel({ events }: Props) {
 
                   <div className="group relative overflow-hidden h-full">
                     {/* Billede */}
-
                     <Image
                       src={event.asset.url}
                       alt="Event image"
-                      width={900} // specifik bredde
-                      height={900} // specifik højde
+                      width={400}
+                      height={400}
                       className="object-cover w-full h-auto"
+                      // Igen fordi billedet er et stort synligt element og skal loades med det samme - ellers får vi error
+                      priority
                     />
                     {/* Overlay */}
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-black/60 transition-opacity grid grid-cols-3 grid-rows-[auto_1fr_1fr] text-white">
+                      {/* Knap */}
                       <div className="col-start-2 row-start-2 place-self-center">
                         <button className="bg-(--pink) px-5 py-3 font-bold self-start cursor-pointer">Book now</button>
                       </div>
-
+                      {/* Tekst */}
                       <div className="col-span-3 row-start-3 p-5 self-end bg-black">
                         <h3 className="text-xl font-bold">{event.title}</h3>
                         <p className="mt-2 text-sm">{event.description}</p>

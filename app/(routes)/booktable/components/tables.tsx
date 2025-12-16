@@ -29,7 +29,7 @@ export default function Tables({ onPick, reservedTables }: { onPick: (n: number)
     { number: 3, img: "/assets/table/table_2.png" },
     { number: 4, img: "/assets/table/table_1.png" },
     { number: 5, img: "/assets/table/table_3.png" },
-    { number: 6, img: "/assets/table/table_2.png" },
+    { number: 6, img: "/assets/table/table_1.png" },
     { number: 7, img: "/assets/table/table_1.png" },
     { number: 8, img: "/assets/table/table_2.png" },
     { number: 9, img: "/assets/table/table_1.png" },
