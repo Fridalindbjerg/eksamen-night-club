@@ -46,22 +46,13 @@ async function Blogposts({ searchParams }: { searchParams: Promise<{ page?: stri
   console.log("TOTAL COUNT HEADER:", response.headers.get("X-Total-Count"));
 
   return (
-    <main className="col-[full-start/full-end] grid grid-cols-subgrid ">
+    <main className="blog-page col-[full-start/full-end] grid grid-cols-subgrid mb-20">
       <Banner text="Blog" />
 
       {posts.map((post: Post) => (
         <section
           key={post.id}
-          className="col-[full-start/full-end]
-            grid grid-cols-subgrid items-start
-            
-            md:*:row-start-1 
-            md:[&>*:first-child]:col-[full-start/full-end]
-            md:[&>*:first-child]:md:col-[full-start/middle]
-            md:[&>*:last-child]:col-[content-start/content-end]
-            md:[&>*:last-child]:md:col-[middle/content-end]
-            even:md:[&>*:first-child]:col-[middle/full-end]
-            even:md:[&>*:last-child]:col-[content-start/middle]"
+          className="col-[full-start/full-end] grid grid-cols-subgrid items-start md:*:row-start-1 md:[&>*:first-child]:col-[full-start/full-end] md:[&>*:first-child]:md:col-[full-start/middle] md:[&>*:last-child]:col-[content-start/content-end] md:[&>*:last-child]:md:col-[middle/content-end] even:md:[&>*:first-child]:col-[middle/full-end] even:md:[&>*:last-child]:col-[content-start/middle]"
         >
           <div className="col-[full-start/full-end]">
             <Image
@@ -85,22 +76,14 @@ async function Blogposts({ searchParams }: { searchParams: Promise<{ page?: stri
             </div>
             <p className="line-clamp-6">{post.content}</p>
             <div className="flex justify-center md:justify-end mx-5">
-              <Link href={`/blogposts/${post.id}`} className="px-6 py-3
-        text-xs font-semibold tracking-widest uppercase
-        text-white
-        border-t border-b border-white
-        bg-transparent
-        transition-colors duration-200
-        hover:bg-white hover:text-black hover:cursor-pointer
-         active:bg-white active:text-black
-    focus:bg-white focus:text-black">
+              <Link href={`/blogposts/${post.id}`} className="px-6 py-3 text-xs font-semibold tracking-widest uppercase text-white border-t border-b border-white bg-transparent transition-colors duration-200 hover:bg-white hover:text-black hover:cursor-pointer active:bg-white active:text-black focus:bg-white focus:text-black">
                 READ MORE
               </Link>
             </div>
           </div>
         </section>
       ))}
-      <div className="grid col-[full-start/full-end] md:col-[content-start/content-end] justify-items-center">
+      <div className="grid col-[full-start/full-end] md:col-[content-start/content-end] justify-items-center mt-8">
         <Pagination currentPage={currentPage} totalPages={totalPages} />
       </div>
     </main>

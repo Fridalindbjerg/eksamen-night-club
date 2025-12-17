@@ -55,16 +55,15 @@ export default function ContactForm() {
 
   return (
     <section className="place-items-center w-full h-full">
-      <form className="grid grid-cols-1 gap-2 md:gap-4 text-white placeholder-white w-100 " onSubmit={handleSubmit(onSubmit)}>
-        <input
-          className="border-white border px-2 py-2"
-          type="text"
-          placeholder="Your Name"
-          {...register("name", {
-            required: "Name is required",
-            validate: (value) => /\p{L}{2,}/u.test(value) || "Name must be at least 2 letters",
-          })}
-        />
+      <form className="grid grid-cols-1 gap-2 md:gap-4 text-white placeholder-white w-80 mx-3" onSubmit={handleSubmit(onSubmit)}>        <input
+        className="border-white border px-2 py-2"
+        type="text"
+        placeholder="Your Name"
+        {...register("name", {
+          required: "Name is required",
+          validate: (value) => /\p{L}{2,}/u.test(value) || "Name must be at least 2 letters",
+        })}
+      />
         {/* Error besked hvis navn ikke lever op til krav */}
         {errors.name && <div className="text-white">{errors.name.message}</div>}
 

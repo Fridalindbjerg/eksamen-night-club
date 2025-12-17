@@ -14,7 +14,7 @@ export default async function Section2_events() {
             />
             <div className="absolute inset-0 bg-black/50 -z-10" />
 
-            <div className="w-full max-w-[1200px] mx-auto">
+            <div className="col-[content-start/content-end]">
                 <Index_h2 text="Events of the month" />
                 <Section2_overlay events={events} />
             </div>

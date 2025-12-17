@@ -32,7 +32,7 @@ export default function EventsCaroussel({ events }: Props) {
   }
 
   return (
-    <section className="w-full ">
+    <div className="w-full m-0">
       {/* Framer Motion gør at slides animeres ind/ud */}
       <AnimatePresence mode="wait">
         <motion.div key={index} initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -50 }} transition={{ duration: 0.5 }} className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-4 justify-items-center">
@@ -43,7 +43,7 @@ export default function EventsCaroussel({ events }: Props) {
             const [datePart, timePart] = clean.split("T");
 
             return (
-              <section key={event.id} className="w-full cursor-pointer">
+              <div key={event.id} className="w-full cursor-pointer">
                 <div className="relative group">
                   {/* trekanter */}
                   <div className="absolute top-0 left-0 w-0 h-0 border-r-70 border-r-transparent border-t-70 border-t-(--pink) opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20" />
@@ -81,7 +81,7 @@ export default function EventsCaroussel({ events }: Props) {
                   <span>{timePart}</span>
                   <span>{event.location}</span>
                 </div>
-              </section>
+              </div>
             );
           })}
         </motion.div>
@@ -93,6 +93,6 @@ export default function EventsCaroussel({ events }: Props) {
           <button key={i} onClick={() => setIndex(i)} className={`w-3 h-3 ${i === index ? "bg-(--pink)" : "bg-white"}`} />
         ))}
       </div>
-    </section>
+    </div>
   );
 }

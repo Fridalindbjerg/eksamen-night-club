@@ -25,7 +25,7 @@ export default function TestimonialsCarousel({ testimonials }: Props) {
   const [index, setIndex] = useState(0);
 
   return (
-    <section className="w-full max-w-4xl mx-auto text-center py-10">
+    <section className="w-full max-w-4xl mx-auto text-center">
       <AnimatePresence mode="wait">
         <motion.div key={testimonials[index].id} initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -50 }} transition={{ duration: 0.5 }}>
           <Image

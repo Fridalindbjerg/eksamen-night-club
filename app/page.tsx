@@ -16,9 +16,8 @@ import { Suspense } from "react";
 
 export default function HomePage() {
   return (
-    <main className="grid grid-cols-subgrid col-[full-start/full-end]">
+    <main className="frontpage grid grid-cols-subgrid col-[full-start/full-end]">
       <Section1_welcome />
-
       <Suspense fallback={<div>Loading Events of the month...</div>}>
         <Section2_events />
       </Suspense>

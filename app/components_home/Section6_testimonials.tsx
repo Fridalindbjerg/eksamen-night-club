@@ -10,10 +10,9 @@ export default async function TestimonialsSection() {
       <div className=" absolute inset-0 bg-cover bg-center -z-10" style={{ backgroundImage: `url("/assets/bg/footerbg.jpg")` }} />
       <div className="absolute inset-0 bg-black opacity-90 -z-10"></div>
 
-      <div className="col-[content-start/content-end] items-center justify-center mt-10 gap-4">
-        <Suspense fallback={<div>Loading testimonials...</div>}>
-          <Section6_testimonials_pag testimonials={testimonials} />
-        </Suspense>
+      <div className="col-[content-start/content-end] grid place-items-center">        <Suspense fallback={<div>Loading testimonials...</div>}>
+        <Section6_testimonials_pag testimonials={testimonials} />
+      </Suspense>
       </div>
     </section>
   );

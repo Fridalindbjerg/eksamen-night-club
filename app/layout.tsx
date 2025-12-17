@@ -34,8 +34,7 @@ export default function RootLayout({
 
         {children}
 
-        <footer className="relative col-[full-start/full-end] bg-transparent py-12">
-          {/* Baggrund */}
+        <footer className="relative col-[full-start/full-end] flex justify-center bg-transparent py-12">          {/* Baggrund */}
           <div className="absolute inset-0 bg-cover bg-center -z-10" style={{ backgroundImage: `url("/assets/bg/footerbg.jpg")` }} />
           <div className="absolute inset-0 bg-black opacity-90 -z-10"></div>
 
