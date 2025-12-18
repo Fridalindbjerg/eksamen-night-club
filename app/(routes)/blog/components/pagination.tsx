@@ -1,4 +1,3 @@
-
 "use client";
 
 import { usePathname, useSearchParams } from "next/navigation";
@@ -8,11 +7,13 @@ export default function Pagination({ currentPage, totalPages }: { currentPage: n
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const createPageURL = (pageNumber: number | string) => {
-    const params = new URLSearchParams(searchParams);
-    params.set("page", pageNumber.toString());
-    return `${pathname}?${params.toString()}`;
-  };
+  // const createPageURL = (pageNumber: number | string) => {
+  //   const params = new URLSearchParams(searchParams);
+  //   params.set("page", pageNumber.toString());
+  //   return `${pathname}?${params.toString()}`;
+  // };
+
+  const createPageURL = (page: number) => `${pathname}?page=${page}`;
 
   return (
     <nav className="flex items-center gap-6 text-white text-xl">
