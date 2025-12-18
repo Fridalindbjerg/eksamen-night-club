@@ -5,12 +5,15 @@ import { forwardRef, useState, useEffect } from "react";
 import { LuSquareArrowLeft, LuSquareArrowRight } from "react-icons/lu";
 import { RxCross2 } from "react-icons/rx";
 import Image from "next/image";
+import Button from "../button";
 
 // TypeScript interface
 export interface Picture {
   id: number;
   description: string;
   asset: { url: string };
+  content: string;
+  title: string;
 }
 
 interface Props {
@@ -167,18 +170,21 @@ const Slide = forwardRef(function Slide({ picture, custom }: { picture: Picture;
     //     <img src={picture.asset.url} alt={picture.description} className="w-full h-full object-contain" />
     //   </div>
     // </motion.div>
-    <motion.div ref={ref} initial={{ opacity: 0, x: direction * 50 }} animate={{ opacity: 1, x: 0, transition: { type: "spring", bounce: 0.3 } }} exit={{ opacity: 0, x: direction * -50 }} custom={custom} className="max-w-[80vw] max-h-[80vh] w-auto h-auto overflow-hidden">
-      <div className="border-b-2 border-(--pink) relative w-full h-full">
+    <motion.div ref={ref} initial={{ opacity: 0, x: direction * 50 }} animate={{ opacity: 1, x: 0, transition: { type: "spring", bounce: 0.3 } }} exit={{ opacity: 0, x: direction * -50 }} custom={custom} className=" max-w-[50vw] max-h-[50vh] w-auto h-auto overflow-visible">
+      <div className="border-b-2 border-(--pink) relative w-full h-full flex flex-col gap-2">
         <div className="relative w-full h-full">
           <div className="absolute bottom-0 right-0 w-0 h-0 border-l-30 border-l-transparent border-b-30 border-b-(--pink)" />
           <Image
             src={picture.asset.url}
             alt={picture.description}
-            width={800} // px eller dynamisk
-            height={600}
+            width={100} // px eller dynamisk
+            height={100}
             className="object-contain w-full h-auto"
           />
         </div>
+        <h3 className="text-2xl uppercase">{picture.title}</h3>
+        <p className="line-clamp-4">{picture.content} </p>
+        <Button text="Read more" />
       </div>
     </motion.div>
   );

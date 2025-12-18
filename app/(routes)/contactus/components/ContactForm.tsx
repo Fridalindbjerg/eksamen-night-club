@@ -8,7 +8,7 @@ import Button from "@/app/button";
 type FormFields = {
   name: string;
   email: string;
-  comments: string;
+  content: string;
 };
 
 export default function ContactForm() {
@@ -28,9 +28,10 @@ export default function ContactForm() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        date: new Date().toISOString(),
         name: data.name,
         email: data.email,
-        comments: data.comments,
+        content: data.content,
       }),
     });
     const createdMessage = await res.json();
@@ -74,8 +75,8 @@ export default function ContactForm() {
         />
         {errors.email && <div className="text-white">{errors.email.message}</div>}
 
-        <textarea className="border-white border px-2 py-2  h-60 resize-none" placeholder="Your Comment" {...register("comments")} />
-        {errors.comments?.message && <div className="text-red-300">{errors.comments.message}</div>}
+        <textarea className="border-white border px-2 py-2  h-60 resize-none" placeholder="Your Comment" {...register("content")} />
+        {errors.content?.message && <div className="text-red-300">{errors.content.message}</div>}
 
         {/*  VIGTIGT HUSK TILFØJ SUBMIT SUCCESS BESKED */}
         <div className="flex justify-end">
